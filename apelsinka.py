@@ -140,9 +140,9 @@ class ReadWindow(QWidget):
         self.text = ''
         self.textEdit.setReadOnly(True)
         self.btn_next = QPushButton('->', self)
-        self.btn_next.setGeometry(510, 670, 30, 20)
+        self.btn_next.setGeometry(490, 650, 30, 20)
         self.btn_previous = QPushButton('<-', self)
-        self.btn_previous.setGeometry(20, 670, 30, 20)
+        self.btn_previous.setGeometry(0, 650, 30, 20)
 
         self.btn_font.clicked.connect(self.change_font)
         self.btn_remark.clicked.connect(self.open_remark)
