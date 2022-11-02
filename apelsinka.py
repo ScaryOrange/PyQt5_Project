@@ -2,10 +2,11 @@ import sys
 import chardet
 import sqlite3
 import os
+import keyboard
 from pdfminer.high_level import extract_text
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QWidget, QPushButton
-from PyQt5.QtGui import QFont, QCloseEvent
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QWidget, QPushButton, QComboBox
+from PyQt5.QtGui import QFont, QCloseEvent, QMouseEvent
 
 CON = sqlite3.connect('Books_db.sqlite')
 CUR = CON.cursor()
@@ -29,7 +30,7 @@ class MainWindow(QMainWindow):
         self.btn_read.clicked.connect(self.read)
         self.btn_search.clicked.connect(self.search)
 
-        self.read_win = ReadWindow()
+        self.read_win = read_win
 
         self.con = sqlite3.connect('Books_db.sqlite')
         self.cur = self.con.cursor()
@@ -77,12 +78,14 @@ class MainWindow(QMainWindow):
     def delete(self) -> None:
         try:
             if self.is_selected():
-                self.listWidget.takeItem(self.listWidget.row(self.listWidget.selectedItems()[0]))
+                item = self.listWidget.selectedItems()[0]
+                self.listWidget.takeItem(self.listWidget.row(item))
+                print(1)
                 CUR.execute("""DELETE FROM Books
                                 WHERE book_name == ?""",
-                            (self.selected(),))
+                            (item.text(),))
         except SelectedElementError:
-            pass
+            self.statusBar.showMessage('Пожалуйста выберите файл')
         CON.commit()
 
     def read(self) -> None:
@@ -96,8 +99,9 @@ class MainWindow(QMainWindow):
                     self.read_win.textEdit.setText(book.read())
                 self.hide()
                 self.read_win.show()
+                self.statusBar.showMessage('Ok')
         except SelectedElementError:
-            pass
+            self.statusBar.showMessage('Пожалуйста выберите файл')
 
     def search(self) -> None:
         self.listWidget.clear()
@@ -126,13 +130,15 @@ class ReadWindow(QWidget):
     def __init__(self) -> None:
         super().__init__()
         uic.loadUi('Read_win.ui', self)
-        self.remark = RemarkWindow()
+        self.read_full_screen_win = ReadFullScreenWin()
+        self.remark_win = RemarkWindow()
         self.flag = True
         self.format = True
         self.current_page = 1
         self.pages = 0
         self.sym = 0
         self.text = ''
+        self.textEdit.setReadOnly(True)
         self.btn_next = QPushButton('->', self)
         self.btn_next.setGeometry(510, 670, 30, 20)
         self.btn_previous = QPushButton('<-', self)
@@ -141,15 +147,16 @@ class ReadWindow(QWidget):
         self.btn_font.clicked.connect(self.change_font)
         self.btn_remark.clicked.connect(self.open_remark)
         self.btn_form.clicked.connect(self.change_format)
+        self.btn_size.clicked.connect(self.show_max_size)
         self.btn_previous.clicked.connect(self.previous_next)
         self.btn_next.clicked.connect(self.previous_next)
-        self.textEdit.setReadOnly(True)
 
     def change_font(self) -> None:
+        self.textEdit.selectAll()
         self.textEdit.setCurrentFont(QFont('MS Shell Dlg 2', int(self.comboBox.currentText())))
 
     def open_remark(self) -> None:
-        self.remark.show()
+        self.remark_win.show()
 
     def change_format(self) -> None:
         if self.flag:
@@ -202,6 +209,13 @@ class ReadWindow(QWidget):
         elif self.sender().text() == '<-' and not self.format and self.current_page:
             self.current_page -= 1
             self.textEdit.setText(self.text[self.sym * (self.current_page - 1):self.sym * self.current_page])
+        keyboard.press('page down')
+        keyboard.release('page down')
+
+    def show_max_size(self):
+        self.read_full_screen_win.showFullScreen()
+        self.read_full_screen_win.textEdit.setText(self.textEdit.toPlainText())
+        self.hide()
 
     def closeEvent(self, a0: QCloseEvent) -> None:
         main_win.show()
@@ -219,16 +233,18 @@ class RemarkWindow(QWidget):
                                     WHERE Book_name = ?""",
                                 (main_win.selected(),)).fetchone()
         en = encoding(book_path[0])
+        remark_path = '/'.join(book_path[0].split('/')[:-1])
         r = self.remark_bd()
         if r:
-            with open(r[0][0], 'w', encoding=en) as remark:
+            with open(remark_path + '/remarks/' + r[0][0], 'w', encoding=en) as remark:
                 remark.write(self.textEdit.toPlainText())
         else:
-            with open('remark' + main_win.selected(), 'w+', encoding=en) as remark:
+            with open(remark_path + '/remarks' '/remark' + main_win.selected(), 'w+', encoding=en) as remark:
                 remark.write(self.textEdit.toPlainText())
                 CUR.execute("""UPDATE Books
-                               SET remark = ?""",
-                            (os.path.basename(remark.name),))
+                               SET remark = ?
+                               WHERE Book_name = ?""",
+                            (os.path.basename(remark.name), main_win.selected()))
         CON.commit()
 
     def remark_bd(self) -> list:
@@ -239,6 +255,69 @@ class RemarkWindow(QWidget):
         return remark
 
 
+class ReadFullScreenWin(QWidget):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('Read_full_screen.ui', self)
+        self.setMouseTracking(True)
+        self.remark_win = RemarkWindow()
+
+        self.font_size = QComboBox(self)
+        self.font_size.setGeometry(13, 100, 100, 30)
+        self.font_size.addItem('8')
+        self.font_size.addItem('6')
+        self.font_size.addItem('7')
+        self.font_size.addItem('9')
+        self.font_size.addItem('10')
+        self.font_size.addItem('11')
+        self.font_size.addItem('12')
+        self.font_size.addItem('14')
+        self.font_size.addItem('16')
+        self.font_size.addItem('18')
+        self.font_size.addItem('20')
+        self.font_size.addItem('24')
+        self.font_size.addItem('28')
+        self.font_size.addItem('32')
+        self.font_size.addItem('38')
+        self.font_size.addItem('48')
+
+        self.btn_size = QPushButton('Выйти', self)
+        self.btn_size.setGeometry(13, 1000, 100, 30)
+        self.btn_size.clicked.connect(self.quit)
+
+        self.btn_format = QPushButton('Читать по страницам', self)
+        self.btn_format.setGeometry(13, 750, 150, 30)
+        self.btn_format.clicked.connect(self.change_format)
+
+        self.btn_remark = QPushButton('Открыть поле для заметок', self)
+        self.btn_remark.setGeometry(13, 500, 150, 30)
+        self.btn_remark.clicked.connect(self.open_remark)
+
+        self.btn_font = QPushButton('Изменить размер шрифта', self)
+        self.btn_font.setGeometry(13, 200, 150, 30)
+        self.btn_font.clicked.connect(self.change_font)
+
+    def change_font(self):
+        self.textEdit.selectAll()
+        self.textEdit.setCurrentFont(QFont('MS Shell Dlg 2', int(self.font_size.currentText())))
+
+    def change_format(self):
+        pass
+
+    def open_remark(self):
+        self.remark_win.show()
+
+    def quit(self):
+        self.close()
+
+    def closeEvent(self, a0: QCloseEvent) -> None:
+        self.remark_win.close()
+        read_win.show()
+
+    def mouseMoveEvent(self, a0: QMouseEvent) -> None:
+        pass
+
+
 def encoding(path) -> str:
     with open(path, 'rb') as f:
         return chardet.detect(bytes(f.read()))['encoding']
@@ -246,6 +325,8 @@ def encoding(path) -> str:
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    read_win = ReadWindow()
+    read_full_screen = ReadFullScreenWin()
     main_win = MainWindow()
     main_win.show()
     sys.exit(app.exec_())
