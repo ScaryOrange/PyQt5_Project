@@ -32,9 +32,6 @@ class MainWindow(QMainWindow):
 
         self.read_win = read_win
 
-        self.con = sqlite3.connect('Books_db.sqlite')
-        self.cur = self.con.cursor()
-
         self.books_from_bd()
 
     def load(self) -> None:
