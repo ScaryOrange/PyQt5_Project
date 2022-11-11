@@ -5,7 +5,7 @@ import os
 from pdfminer.high_level import extract_text
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QWidget
-from PyQt5.QtGui import QFont, QCloseEvent, QColor
+from PyQt5.QtGui import QFont, QCloseEvent, QColor, QIcon
 
 CON = sqlite3.connect('Books_db.sqlite')
 CUR = CON.cursor()
@@ -24,6 +24,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         uic.loadUi('Main_win.ui', self)
         self.setWindowTitle('Главное окно')
+        self.setWindowIcon(QIcon('book_pic.png'))
 
         self.theme = 'white'
 
@@ -175,6 +176,7 @@ class ReadWindow(QWidget):
         self.textEdit.setReadOnly(True)
 
         self.setWindowTitle('Окно для чтения')
+        self.setWindowIcon(QIcon('book_pic.png'))
         self.theme = 'white'
 
         self.win_style_sheet_white = """background-color: rgb(25, 25, 25);"""
@@ -245,6 +247,7 @@ class RemarkWindow(QWidget):
         uic.loadUi('Remark_win.ui', self)
 
         self.setWindowTitle('Окно для заметок')
+        self.setWindowIcon(QIcon('book_pic.png'))
         self.theme = 'white'
 
         self.win_style_sheet_white = """background-color: rgb(25, 25, 25);"""
@@ -294,6 +297,7 @@ class ReadFullScreenWin(QWidget):
         super().__init__()
         uic.loadUi('Read_full_screen.ui', self)
         self.textEdit.setReadOnly(True)
+        self.setWindowIcon(QIcon('book_pic.png'))
         self.theme = 'white'
 
         self.win_style_sheet_white = """background-color: rgb(25, 25, 25);"""
