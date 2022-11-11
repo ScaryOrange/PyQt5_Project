@@ -138,7 +138,6 @@ class MainWindow(QMainWindow):
             self.search_line.setStyleSheet(self.other_style_sheet_white)
             self.statusBar.setStyleSheet(self.other_style_sheet_white)
             read_win.change_theme()
-            remark_win.change_theme()
             read_full_screen.change_theme()
             self.theme = 'black'
         else:
@@ -154,7 +153,6 @@ class MainWindow(QMainWindow):
             self.search_line.setStyleSheet(self.other_style_sheet_black)
             self.statusBar.setStyleSheet(self.other_style_sheet_black)
             read_win.change_theme()
-            remark_win.change_theme()
             read_full_screen.change_theme()
             self.theme = 'white'
 
@@ -214,6 +212,7 @@ class ReadWindow(QWidget):
             self.groupBox_2.setStyleSheet("""color: rgb(255,255,255);""")
             self.textEdit.selectAll()
             self.textEdit.setTextColor(QColor('white'))
+            remark_win.change_theme()
             self.theme = 'black'
         else:
             self.setStyleSheet(self.win_style_sheet_black)
@@ -226,6 +225,7 @@ class ReadWindow(QWidget):
             self.groupBox_2.setStyleSheet("""color: rgb(0,0,0);""")
             self.textEdit.selectAll()
             self.textEdit.setTextColor(QColor('black'))
+            remark_win.change_theme()
             self.theme = 'white'
 
     def show_full_screen(self):
@@ -293,6 +293,7 @@ class ReadFullScreenWin(QWidget):
     def __init__(self):
         super().__init__()
         uic.loadUi('Read_full_screen.ui', self)
+        self.textEdit.setReadOnly(True)
         self.theme = 'white'
 
         self.win_style_sheet_white = """background-color: rgb(25, 25, 25);"""
@@ -326,6 +327,7 @@ class ReadFullScreenWin(QWidget):
             self.label.setStyleSheet("""color: rgb(255,255,255)""")
             self.textEdit.selectAll()
             self.textEdit.setTextColor(QColor('white'))
+            remark_win.change_theme()
             self.theme = 'black'
         else:
             self.setStyleSheet(self.win_style_sheet_black)
@@ -337,6 +339,7 @@ class ReadFullScreenWin(QWidget):
             self.label.setStyleSheet("""color: rgb(0,0,0)""")
             self.textEdit.selectAll()
             self.textEdit.setTextColor(QColor('black'))
+            remark_win.change_theme()
             self.theme = 'white'
 
     def open_remark(self):
