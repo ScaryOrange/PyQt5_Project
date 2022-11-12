@@ -42,14 +42,16 @@
    <property name="geometry">
     <rect>
      <x>530</x>
-     <y>320</y>
+     <y>450</y>
      <width>211</width>
-     <height>321</height>
+     <height>191</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <family>Monotype Corsiva</family>
+     <pointsize>14</pointsize>
+     <italic>true</italic>
     </font>
    </property>
    <property name="title">
@@ -61,15 +63,17 @@
    <widget class="QPushButton" name="btn_remark">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>40</y>
-      <width>171</width>
+      <width>191</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>13</pointsize>
+      <italic>true</italic>
      </font>
     </property>
     <property name="text">
@@ -79,15 +83,17 @@
    <widget class="QPushButton" name="btn_theme">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>140</y>
-      <width>171</width>
+      <width>191</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>13</pointsize>
+      <italic>true</italic>
      </font>
     </property>
     <property name="text">
@@ -97,15 +103,17 @@
    <widget class="QPushButton" name="btn_size">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>250</y>
-      <width>171</width>
+      <x>10</x>
+      <y>90</y>
+      <width>191</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>13</pointsize>
+      <italic>true</italic>
      </font>
     </property>
     <property name="text">
@@ -117,14 +125,16 @@
    <property name="geometry">
     <rect>
      <x>530</x>
-     <y>70</y>
+     <y>10</y>
      <width>211</width>
      <height>161</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <family>Monotype Corsiva</family>
+     <pointsize>13</pointsize>
+     <italic>true</italic>
     </font>
    </property>
    <property name="title">
@@ -136,19 +146,21 @@
    <widget class="QPushButton" name="btn_font">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>100</y>
-      <width>171</width>
+      <x>10</x>
+      <y>120</y>
+      <width>191</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>13</pointsize>
+      <italic>true</italic>
      </font>
     </property>
     <property name="text">
-     <string>Изменить шрифт</string>
+     <string>Изменить размер шрифта</string>
     </property>
    </widget>
    <widget class="QComboBox" name="comboBox">
@@ -256,7 +268,73 @@
    <property name="geometry">
     <rect>
      <x>530</x>
-     <y>270</y>
+     <y>420</y>
+     <width>221</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_3">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>240</y>
+     <width>211</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monotype Corsiva</family>
+     <pointsize>13</pointsize>
+     <italic>true</italic>
+    </font>
+   </property>
+   <property name="title">
+    <string>Шрифт</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <widget class="QFontComboBox" name="fontComboBox">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>171</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>10</pointsize>
+      <italic>false</italic>
+     </font>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Изменить шрифт</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="Line" name="line_2">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>200</y>
      <width>221</width>
      <height>16</height>
     </rect>
