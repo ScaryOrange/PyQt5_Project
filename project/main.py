@@ -26,24 +26,10 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Главное окно')
         self.setWindowIcon(QIcon('book_pic.png'))
 
-        self.theme = 'white'
-
-        self.win_style_sheet_white = """background-color: rgb(25, 25, 25);"""
-        self.other_style_sheet_white = """
-                background-color: rgb(50, 50, 50);
-                color: rgb(255, 255, 255);
-                """
-        self.win_style_sheet_black = """background-color: rgb(240, 240, 240);"""
-        self.other_style_sheet_black = """
-                        background-color: rgb(240, 240, 240);
-                        color: rgb(0, 0, 0);
-                        """
-
         self.btn_load.clicked.connect(self.load)
         self.btn_del.clicked.connect(self.delete)
         self.btn_read.clicked.connect(self.read)
         self.btn_search.clicked.connect(self.search)
-        self.btn_theme.clicked.connect(self.change_theme)
 
         self.read_win = read_win
 
@@ -125,38 +111,6 @@ class MainWindow(QMainWindow):
         else:
             self.books_from_bd()
 
-    def change_theme(self):
-        if self.theme == 'white':
-            self.setStyleSheet(self.win_style_sheet_white)
-            self.btn_search.setStyleSheet(self.other_style_sheet_white)
-            self.btn_read.setStyleSheet(self.other_style_sheet_white)
-            self.btn_del.setStyleSheet(self.other_style_sheet_white)
-            self.btn_load.setStyleSheet(self.other_style_sheet_white)
-            self.listWidget.setStyleSheet(self.other_style_sheet_white)
-            self.btn_theme.setStyleSheet(self.other_style_sheet_white)
-            self.label.setStyleSheet("""color:rgb(255,255,255);""")
-            self.label_2.setStyleSheet("""color:rgb(255,255,255);""")
-            self.search_line.setStyleSheet(self.other_style_sheet_white)
-            self.statusBar.setStyleSheet(self.other_style_sheet_white)
-            read_win.change_theme()
-            read_full_screen.change_theme()
-            self.theme = 'black'
-        else:
-            self.setStyleSheet(self.win_style_sheet_black)
-            self.btn_search.setStyleSheet(self.other_style_sheet_black)
-            self.btn_read.setStyleSheet(self.other_style_sheet_black)
-            self.btn_del.setStyleSheet(self.other_style_sheet_black)
-            self.btn_load.setStyleSheet(self.other_style_sheet_black)
-            self.listWidget.setStyleSheet(self.other_style_sheet_black)
-            self.btn_theme.setStyleSheet(self.other_style_sheet_black)
-            self.label.setStyleSheet("""color:rgb(0,0,0);""")
-            self.label_2.setStyleSheet("""color:rgb(0,0,0);""")
-            self.search_line.setStyleSheet(self.other_style_sheet_black)
-            self.statusBar.setStyleSheet(self.other_style_sheet_black)
-            read_win.change_theme()
-            read_full_screen.change_theme()
-            self.theme = 'white'
-
     def selected(self) -> str:
         return self.listWidget.selectedItems()[0].text()
 
@@ -177,7 +131,7 @@ class ReadWindow(QWidget):
 
         self.setWindowTitle('Окно для чтения')
         self.setWindowIcon(QIcon('book_pic.png'))
-        self.theme = 'white'
+        self.theme = 'original'
 
         self.win_style_sheet_white = """background-color: rgb(25, 25, 25);"""
         self.other_style_sheet_white = """
@@ -189,6 +143,10 @@ class ReadWindow(QWidget):
                                 background-color: rgb(240, 240, 240);
                                 color: rgb(0, 0, 0);
                                 """
+        self.win_style_sheet_original = """background-color: rgb(90, 49, 19);"""
+        self.other_style_sheet_original = """background-color: rgb(232, 183, 128);
+                                             color: rgb(0, 0, 0);
+                                             """
 
         self.btn_font.clicked.connect(self.change_font)
         self.btn_remark.clicked.connect(self.open_remark)
@@ -197,38 +155,57 @@ class ReadWindow(QWidget):
 
     def change_font(self) -> None:
         self.textEdit.selectAll()
-        self.textEdit.setCurrentFont(QFont('MS Shell Dlg 2', int(self.comboBox.currentText())))
+        self.textEdit.setCurrentFont(QFont(self.fontComboBox.currentText(), int(self.comboBox.currentText())))
 
     def open_remark(self) -> None:
         remark_win.show()
 
     def change_theme(self):
-        if self.theme == 'white':
+        if self.theme == 'original':
             self.setStyleSheet(self.win_style_sheet_white)
             self.btn_font.setStyleSheet(self.other_style_sheet_white)
             self.btn_remark.setStyleSheet(self.other_style_sheet_white)
             self.btn_size.setStyleSheet(self.other_style_sheet_white)
             self.btn_theme.setStyleSheet(self.other_style_sheet_white)
+            self.groupBox.setStyleSheet(self.other_style_sheet_white)
+            self.groupBox_2.setStyleSheet(self.other_style_sheet_white)
             self.comboBox.setStyleSheet(self.other_style_sheet_white)
-            self.groupBox.setStyleSheet("""color: rgb(255,255,255);""")
-            self.groupBox_2.setStyleSheet("""color: rgb(255,255,255);""")
+            self.fontComboBox.setStyleSheet(self.other_style_sheet_white)
+            self.textEdit.setStyleSheet("""background-color: rgb(0,0,0)""")
             self.textEdit.selectAll()
             self.textEdit.setTextColor(QColor('white'))
             remark_win.change_theme()
             self.theme = 'black'
-        else:
+        elif self.theme == 'black':
             self.setStyleSheet(self.win_style_sheet_black)
             self.btn_font.setStyleSheet(self.other_style_sheet_black)
             self.btn_remark.setStyleSheet(self.other_style_sheet_black)
             self.btn_size.setStyleSheet(self.other_style_sheet_black)
             self.btn_theme.setStyleSheet(self.other_style_sheet_black)
+            self.groupBox.setStyleSheet(self.other_style_sheet_black)
+            self.groupBox_2.setStyleSheet(self.other_style_sheet_black)
             self.comboBox.setStyleSheet(self.other_style_sheet_black)
-            self.groupBox.setStyleSheet("""color: rgb(0,0,0);""")
-            self.groupBox_2.setStyleSheet("""color: rgb(0,0,0);""")
+            self.fontComboBox.setStyleSheet(self.other_style_sheet_black)
+            self.textEdit.setStyleSheet("""background-color: rgb(255,255,255)""")
             self.textEdit.selectAll()
             self.textEdit.setTextColor(QColor('black'))
             remark_win.change_theme()
             self.theme = 'white'
+        else:
+            self.setStyleSheet(self.win_style_sheet_original)
+            self.btn_font.setStyleSheet(self.other_style_sheet_original)
+            self.btn_remark.setStyleSheet(self.other_style_sheet_original)
+            self.btn_size.setStyleSheet(self.other_style_sheet_original)
+            self.btn_theme.setStyleSheet(self.other_style_sheet_original)
+            self.groupBox.setStyleSheet(self.other_style_sheet_original)
+            self.groupBox_2.setStyleSheet(self.other_style_sheet_original)
+            self.comboBox.setStyleSheet(self.other_style_sheet_original)
+            self.fontComboBox.setStyleSheet(self.other_style_sheet_original)
+            self.textEdit.setStyleSheet("""background-color: rgb(232, 183, 128);""")
+            self.textEdit.selectAll()
+            self.textEdit.setTextColor(QColor(0, 0, 0))
+            remark_win.change_theme()
+            self.theme = 'original'
 
     def show_full_screen(self):
         read_full_screen.showFullScreen()
@@ -237,8 +214,6 @@ class ReadWindow(QWidget):
 
     def closeEvent(self, a0: QCloseEvent) -> None:
         main_win.show()
-        if self.theme != main_win.theme:
-            self.change_theme()
 
 
 class RemarkWindow(QWidget):
@@ -248,23 +223,23 @@ class RemarkWindow(QWidget):
 
         self.setWindowTitle('Окно для заметок')
         self.setWindowIcon(QIcon('book_pic.png'))
-        self.theme = 'white'
+        self.theme = 'original'
 
         self.win_style_sheet_white = """background-color: rgb(25, 25, 25);"""
         self.win_style_sheet_black = """background-color: rgb(240, 240, 240);"""
+        self.win_style_sheet_original = """background-color: rgb(232, 183, 128)"""
 
     def closeEvent(self, a0: QCloseEvent) -> None:
         book_path = CUR.execute("""SELECT Book_path FROM Books
                                     WHERE Book_name = ?""",
                                 (main_win.selected(),)).fetchone()
         en = encoding(book_path[0])
-        remark_path = '/'.join(book_path[0].split('/')[:-1]) + '/project' + '/remarks' + '/remark' + main_win.selected()
         r = self.remark_bd()
         if r:
-            with open(remark_path, 'w', encoding=en) as remark:
+            with open(os.path.split(os.path.abspath('main.py'))[0] + '/remarks' + r[0][0], 'w', encoding=en) as remark:
                 remark.write(self.textEdit.toPlainText())
         else:
-            with open(remark_path, 'w+', encoding=en) as remark:
+            with open(os.path.split(os.path.abspath('main.py'))[0] + '/remarks' + '/remark' + main_win.selected(), 'w+', encoding=en) as remark:
                 remark.write(self.textEdit.toPlainText())
                 CUR.execute("""UPDATE Books
                                SET remark = ?
@@ -273,13 +248,21 @@ class RemarkWindow(QWidget):
         CON.commit()
 
     def change_theme(self):
-        if self.theme == 'white':
+        if self.theme == 'original':
             self.setStyleSheet(self.win_style_sheet_white)
+            self.textEdit.setStyleSheet("""background-color: rgb(10,10,10)""")
             self.textEdit.selectAll()
             self.textEdit.setTextColor(QColor(255, 255, 255))
             self.theme = 'black'
-        else:
+        elif self.theme == 'black':
             self.setStyleSheet(self.win_style_sheet_black)
+            self.textEdit.setStyleSheet("""background-color: rgb(250,250,250)""")
+            self.textEdit.selectAll()
+            self.textEdit.setTextColor(QColor(0, 0, 0))
+            self.theme = 'white'
+        else:
+            self.setStyleSheet(self.win_style_sheet_original)
+            self.textEdit.setStyleSheet("""background-color: rgb(232,183,128)""")
             self.textEdit.selectAll()
             self.textEdit.setTextColor(QColor(0, 0, 0))
             self.theme = 'white'
@@ -298,7 +281,7 @@ class ReadFullScreenWin(QWidget):
         uic.loadUi('Read_full_screen.ui', self)
         self.textEdit.setReadOnly(True)
         self.setWindowIcon(QIcon('book_pic.png'))
-        self.theme = 'white'
+        self.theme = 'original'
 
         self.win_style_sheet_white = """background-color: rgb(25, 25, 25);"""
         self.other_style_sheet_white = """
@@ -311,6 +294,11 @@ class ReadFullScreenWin(QWidget):
                                         color: rgb(0, 0, 0);
                                         """
 
+        self.win_style_sheet_original = """background-color: rgb(90, 49, 19);"""
+        self.other_style_sheet_original = """background-color: rgb(232, 183, 128);
+                                                color: rgb(0, 0, 0);
+                                                """
+
         self.btn_close.clicked.connect(self.close)
         self.btn_remark.clicked.connect(self.open_remark)
         self.btn_font.clicked.connect(self.change_font)
@@ -318,41 +306,56 @@ class ReadFullScreenWin(QWidget):
 
     def change_font(self):
         self.textEdit.selectAll()
-        self.textEdit.setCurrentFont(QFont('MS Shell Dlg 2', int(self.comboBox.currentText())))
+        self.textEdit.setCurrentFont(QFont(self.fontComboBox.currentText(), int(self.comboBox.currentText())))
 
     def change_theme(self):
-        if self.theme == 'white':
+        if self.theme == 'original':
             self.setStyleSheet(self.win_style_sheet_white)
             self.btn_font.setStyleSheet(self.other_style_sheet_white)
             self.btn_remark.setStyleSheet(self.other_style_sheet_white)
             self.btn_close.setStyleSheet(self.other_style_sheet_white)
             self.btn_theme.setStyleSheet(self.other_style_sheet_white)
             self.comboBox.setStyleSheet(self.other_style_sheet_white)
+            self.fontComboBox.setStyleSheet(self.other_style_sheet_white)
             self.label.setStyleSheet("""color: rgb(255,255,255)""")
+            self.textEdit.setStyleSheet("""background-color: rgb(0,0,0)""")
             self.textEdit.selectAll()
             self.textEdit.setTextColor(QColor('white'))
             remark_win.change_theme()
             self.theme = 'black'
-        else:
+        elif self.theme == 'black':
             self.setStyleSheet(self.win_style_sheet_black)
             self.btn_font.setStyleSheet(self.other_style_sheet_black)
             self.btn_remark.setStyleSheet(self.other_style_sheet_black)
             self.btn_close.setStyleSheet(self.other_style_sheet_black)
             self.btn_theme.setStyleSheet(self.other_style_sheet_black)
             self.comboBox.setStyleSheet(self.other_style_sheet_black)
+            self.fontComboBox.setStyleSheet(self.other_style_sheet_black)
             self.label.setStyleSheet("""color: rgb(0,0,0)""")
+            self.textEdit.setStyleSheet("""background-color: rgb(255,255,255)""")
             self.textEdit.selectAll()
             self.textEdit.setTextColor(QColor('black'))
             remark_win.change_theme()
             self.theme = 'white'
+        else:
+            self.setStyleSheet(self.win_style_sheet_original)
+            self.btn_font.setStyleSheet(self.other_style_sheet_original)
+            self.btn_remark.setStyleSheet(self.other_style_sheet_original)
+            self.btn_close.setStyleSheet(self.other_style_sheet_original)
+            self.btn_theme.setStyleSheet(self.other_style_sheet_original)
+            self.comboBox.setStyleSheet(self.other_style_sheet_original)
+            self.fontComboBox.setStyleSheet(self.other_style_sheet_original)
+            self.label.setStyleSheet("""color: rgb(0,0,0)""")
+            self.textEdit.setStyleSheet("""background-color: rgb(232, 183, 128);""")
+            self.textEdit.selectAll()
+            self.textEdit.setTextColor(QColor(0, 0, 0))
+            remark_win.change_theme()
+            self.theme = 'original'
 
     def open_remark(self):
         remark_win.show()
 
     def closeEvent(self, a0: QCloseEvent) -> None:
-        remark_win.close()
-        if self.theme != main_win.theme:
-            self.change_theme()
         read_win.show()
 
 
