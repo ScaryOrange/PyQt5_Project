@@ -34,6 +34,9 @@
           <bold>false</bold>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(232, 183, 128);</string>
+        </property>
         <property name="text">
          <string>Список ваших файлов</string>
         </property>
@@ -53,6 +56,9 @@
           <bold>false</bold>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(232, 183, 128);</string>
+        </property>
         <property name="text">
          <string>Поиск</string>
         </property>
@@ -67,6 +73,13 @@
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
        <widget class="QListWidget" name="listWidget">
+        <property name="font">
+         <font>
+          <family>Monotype Corsiva</family>
+          <pointsize>12</pointsize>
+          <italic>true</italic>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(232, 183, 128);</string>
         </property>
@@ -211,6 +224,9 @@
           <italic>true</italic>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(232, 183, 128);</string>
+        </property>
         <property name="text">
          <string>Найти</string>
         </property>
@@ -273,24 +289,6 @@
         </property>
         <property name="text">
          <string>Удалить выбранный файл</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="btn_theme">
-        <property name="font">
-         <font>
-          <family>Monotype Corsiva</family>
-          <pointsize>14</pointsize>
-          <italic>true</italic>
-          <kerning>true</kerning>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(232, 183, 128);</string>
-        </property>
-        <property name="text">
-         <string>Изменить тему приложения</string>
         </property>
        </widget>
       </item>
